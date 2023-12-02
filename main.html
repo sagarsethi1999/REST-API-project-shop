@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <form id="addForm" class="form-inline mb-3">
+            <label>Item Name :</label>
+            <input type="text" id="Name" class="form-control-sm m-2" />
+            <label>Description :</label>
+            <input type="text" id="Description" class="form-control-sm m-2" />
+            <label for="text">Price :</label>
+            <input type="number" id="Price" class="form-control-sm" />
+            <label for="text">Quantity :</label>
+            <input type="number" id="Quantity" class="form-control-sm" />
+            <input type="submit" class="btn btn-dark" value="Add Item">
+            <ul id="items" class="list-group">
+            </ul>
+            </select>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script>
+        var editingItem = null;
+        document.addEventListener('submit', addItem);
+        function addItem(event) {
+            event.preventDefault();
+            const Name = event.target.Name.value;
+            const Description = event.target.Description.value;
+            const Price = event.target.Price.value;
+            const Quantity = event.target.Quantity.value;
+            const obj = {
+                Name,
+                Description,
+                Price,
+                Quantity
+            }
+            //let key = new Date().getTime()
+            //localStorage.setItem(obj.ExpenceAmount, JSON.stringify(obj));
+            if (editingItem === null) {
+                axios.post("https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct", {...obj})
+                    .then((res) => {
+                        showUseronScreen(res.data);
+                        console.log(res);
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+            } 
+                
+          
+            //showUseronScreen(obj)
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            axios.get("https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct")
+                .then((response) => {
+                    for (var i = 0; i < response.data.length; i++) {
+                        showUseronScreen(response.data[i]);
+                    }
+                    console.log(response);
+                }).catch((error) => {
+                    console.log(error);
+                })
+        })
+
+
+ 
+
+        function showUseronScreen(obj) {
+
+            const parentElem = document.getElementById('items');
+            const childElem = document.createElement('li');
+            childElem.id = obj._id;
+            childElem.textContent = obj.Name + '-' + obj.Description + '-' + obj.Price + '-' + obj.Quantity
+
+            
+
+            let buyBtn = document.createElement('button');
+            buyBtn.className = 'btn btn-success btn-sm float-right mr-1';
+            buyBtn.appendChild(document.createTextNode('Buy 1'));
+            buyBtn.onclick = function () {
+                //localStorage.removeItem(obj.ExpenceAmount)
+                parentElem.removeChild(childElem)
+                editingItem = obj._id;
+                obj.Quantity=obj.Quantity-1;
+
+                axios.put(`https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct/${editingItem}`, { ...obj, _id: undefined})
+                    .then((response) => {
+                        // parentElem.removeChild(childElem)
+                        showUseronScreen(obj);
+                        console.log(response);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+
+                editingItem = null;
+            }
+            let buyBtn1 = document.createElement('button');
+            buyBtn1.className = 'btn btn-success btn-sm float-right mr-1';
+            buyBtn1.appendChild(document.createTextNode('Buy 2'));
+            buyBtn1.onclick = function () {
+                //localStorage.removeItem(obj.ExpenceAmount)
+                parentElem.removeChild(childElem)
+                editingItem = obj._id;
+                obj.Quantity=obj.Quantity-2;
+
+                axios.put(`https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct/${editingItem}`, { ...obj, _id: undefined})
+                    .then((response) => {
+                        // parentElem.removeChild(childElem)
+                        showUseronScreen(obj);
+                        console.log(response);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+
+                editingItem = null;
+            }
+
+            let buyBtn2 = document.createElement('button');
+            buyBtn2.className = 'btn btn-success btn-sm float-right mr-1';
+            buyBtn2.appendChild(document.createTextNode('Buy 3'));
+            buyBtn2.onclick = function () {
+                //localStorage.removeItem(obj.ExpenceAmount)
+                parentElem.removeChild(childElem)
+                editingItem = obj._id;
+                obj.Quantity=obj.Quantity-3;
+
+                axios.put(`https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct/${editingItem}`, { ...obj, _id: undefined})
+                    .then((response) => {
+                        // parentElem.removeChild(childElem)
+                        showUseronScreen(obj);
+                        console.log(response);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+
+                editingItem = null;
+            }
+
+
+            childElem.appendChild(buyBtn);
+            childElem.appendChild(buyBtn1);
+            childElem.appendChild(buyBtn2);
+            parentElem.appendChild(childElem);
+        }
+        //change done
+    </script>
+</body>
+</html>
+
+
+
+
+
