@@ -10,9 +10,9 @@
 </head>
 <body>
     <div class="container">
-        <form id="addForm" class="form-inline mb-3">
+        <form id="addForm" class="form-inline mb-3"  >
             <label>Item Name :</label>
-            <input type="text" id="Name" class="form-control-sm m-2" />
+            <input type="text" id="Name" class="form-control-sm m-2"  autocomplete="on" />
             <label>Description :</label>
             <input type="text" id="Description" class="form-control-sm m-2" />
             <label for="text">Price :</label>
@@ -26,8 +26,14 @@
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+
+
+
     <script>
-        var editingItem = null;
+     
+
+
+        
         document.addEventListener('submit', addItem);
         function addItem(event) {
             event.preventDefault();
@@ -41,23 +47,26 @@
                 Price,
                 Quantity
             }
-            //let key = new Date().getTime()
-            //localStorage.setItem(obj.ExpenceAmount, JSON.stringify(obj));
-            if (editingItem === null) {
-                axios.post("https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct", {...obj})
+           
+            // if (editingItem === null) {
+                axios.post("https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct", {...obj})
                     .then((res) => {
                         showUseronScreen(res.data);
                         console.log(res);
                     }).catch((err) => {
                         console.log(err);
                     })
-            } 
-                
-          
-            //showUseronScreen(obj)
+            // } 
+
         }
+
+
+
+
+
+
         document.addEventListener("DOMContentLoaded", () => {
-            axios.get("https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct")
+            axios.get("https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct")
                 .then((response) => {
                     for (var i = 0; i < response.data.length; i++) {
                         showUseronScreen(response.data[i]);
@@ -81,65 +90,104 @@
             
 
             let buyBtn = document.createElement('button');
-            buyBtn.className = 'btn btn-success btn-sm float-right mr-1';
+            buyBtn.className = 'btn btn-primary btn-sm float-right mr-1';
             buyBtn.appendChild(document.createTextNode('Buy 1'));
             buyBtn.onclick = function () {
-                //localStorage.removeItem(obj.ExpenceAmount)
+               
                 parentElem.removeChild(childElem)
-                editingItem = obj._id;
                 obj.Quantity=obj.Quantity-1;
 
-                axios.put(`https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct/${editingItem}`, { ...obj, _id: undefined})
+                if(obj.Quantity<0)
+                {
+                    axios.delete(`https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct/${obj._id}`)
                     .then((response) => {
-                        // parentElem.removeChild(childElem)
-                        showUseronScreen(obj);
+                       
                         console.log(response);
                     }).catch((error) => {
                         console.log(error);
                     })
 
-                editingItem = null;
+                }
+
+                else
+                {
+                    axios.put(`https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct/${obj._id}`, { ...obj, _id: undefined})
+                    .then((response) => {
+                       
+                        showUseronScreen(obj);
+                        console.log(response);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                }
+
             }
             let buyBtn1 = document.createElement('button');
             buyBtn1.className = 'btn btn-success btn-sm float-right mr-1';
             buyBtn1.appendChild(document.createTextNode('Buy 2'));
             buyBtn1.onclick = function () {
-                //localStorage.removeItem(obj.ExpenceAmount)
+                
                 parentElem.removeChild(childElem)
-                editingItem = obj._id;
                 obj.Quantity=obj.Quantity-2;
 
-                axios.put(`https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct/${editingItem}`, { ...obj, _id: undefined})
+                if(obj.Quantity<0)
+                {
+                    axios.delete(`https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct/${obj._id}`)
                     .then((response) => {
-                        // parentElem.removeChild(childElem)
-                        showUseronScreen(obj);
+                       
                         console.log(response);
                     }).catch((error) => {
                         console.log(error);
                     })
 
-                editingItem = null;
+                }
+
+                else
+                {
+                    axios.put(`https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct/${obj._id}`, { ...obj, _id: undefined})
+                    .then((response) => {
+                       
+                        showUseronScreen(obj);
+                        console.log(response);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                }
+
             }
 
             let buyBtn2 = document.createElement('button');
-            buyBtn2.className = 'btn btn-success btn-sm float-right mr-1';
+            buyBtn2.className = 'btn btn-danger btn-sm float-right mr-1';
             buyBtn2.appendChild(document.createTextNode('Buy 3'));
             buyBtn2.onclick = function () {
-                //localStorage.removeItem(obj.ExpenceAmount)
+                
                 parentElem.removeChild(childElem)
-                editingItem = obj._id;
+               
                 obj.Quantity=obj.Quantity-3;
 
-                axios.put(`https://crudcrud.com/api/aef33d2424244e08b5d38bbd21369e44/addProduct/${editingItem}`, { ...obj, _id: undefined})
+                if(obj.Quantity<0)
+                {
+                    axios.delete(`https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct/${obj._id}`)
                     .then((response) => {
-                        // parentElem.removeChild(childElem)
-                        showUseronScreen(obj);
+                       
                         console.log(response);
                     }).catch((error) => {
                         console.log(error);
                     })
 
-                editingItem = null;
+                }
+
+                else
+                {
+                    axios.put(`https://crudcrud.com/api/679bef04674142cb81d78e74847734ef/addProduct/${obj._id}`, { ...obj, _id: undefined})
+                    .then((response) => {
+                       
+                        showUseronScreen(obj);
+                        console.log(response);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                }
             }
 
 
